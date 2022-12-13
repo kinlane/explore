@@ -3,12 +3,11 @@ description: Exploring the world around me.
 
 image: https://postman-toolboxes2.s3.amazonaws.com/assets/api.png
 
-#url: /explore
-url: https://explore.laneworks.net/
+url: /
 
 email: kin@postman.com
 
-github_user: postman-open-technologies
+github_user: kinlane
 github_repo: explore
 github_branch: main
 
