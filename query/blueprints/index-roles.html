@@ -1,0 +1,11 @@
+---
+layout: none
+---
+
+
+{% assign blueprints = site.data.blueprints %}
+{% for blueprint in blueprints %}	
+	{% for role in blueprint.roles %}	
+		INSERT INTO blueprints_roles(role,blueprint_name) VALUES('{{ role }}','{{ blueprint.name }}');<br>
+	{% endfor %}
+{% endfor %}

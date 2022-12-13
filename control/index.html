@@ -1,0 +1,38 @@
+---
+layout: default
+title: Admin - Blueprints
+---
+
+
+<script>
+
+	function sumpn(){
+
+		let url = new URL('http://apievangelist.com');
+		const params = { title: 'web'};
+		url.search = new URLSearchParams(params);
+		try {
+		const response = await fetch(url);
+		if (!response.ok) {
+		const message = 'Error with Status Code: ' + response.status;
+		throw new Error(message);
+		}
+		const data = await response.json();
+		console.log(data);
+		} catch (error) {
+		console.log('Error: ' + err);
+		}
+		
+	}
+
+</script>
+
+<div class="container" style="padding-top: 70px;">
+	<div class="row align-top">
+
+		<input type="button" name="sumpn" value="GO" onclick="sumpn();">
+
+	</div>
+</div>
+
+

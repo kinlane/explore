@@ -1,0 +1,9 @@
+---
+layout: none
+---
+
+
+{% assign elements = site.data.elements %}
+{% for element in elements %}	
+	INSERT INTO elements(name,description,version,collection_id) VALUES('{{ element.name | escape }}','{{ element.description | replace: "'", "~" }}','{{ element.version }}','{{ element.collection_id }}');<br>
+{% endfor %}

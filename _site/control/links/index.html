@@ -1,0 +1,530 @@
+
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="">
+   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+   <meta name="generator" content="Hugo 0.88.1">
+   
+   <title>Admin - Links</title>
+
+   <!---<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sticky-footer-navbar/">--->
+   <link href="http://localhost:4000/assets/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   <meta name="theme-color" content="#7952b3">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Cookies.js - http://github.com/ScottHamper/Cookies -->
+    <script src="http://localhost:4000/assets/js/cookies.js"></script>
+
+    <script>
+
+        function getUrlVar(key){
+            var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
+            return result && unescape(result[1]) || "";
+        }
+
+    </script>
+
+  </head>
+  <body class="d-flex flex-column h-100">
+    
+<header>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="http://localhost:4000/">Admin - Links</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="http://localhost:4000/">Home</a>
+          </li>   
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:4000/control/peoples/">Peoples</a>
+          </li>          
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:4000/control/places/">Places</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:4000/control/things/">Things</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:4000/control/links/">Links</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://localhost:4000/control/tags/">Tags</a>
+          </li>                                                                              
+        </ul>
+        <form class="d-flex">
+          <!--<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>-->
+        </form>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="flex-shrink-0"><div class="container" style="padding-top: 70px;">
+	<div class="row align-top">
+		<script>
+			function changeToken(t){
+				Cookies.set('token',t)
+			}
+		</script>
+		<div class="row">
+			<label for="token" class="col-sm-2 col-form-label" style="text-align:right; width: 50px;">Token:</label>
+			<div class="col">				
+				<input type="text" class="form-control" id="token" name="token" value="token">
+			</div>
+			<label for="token" class="col-sm-2 col-form-label" style="text-align:right; width: 50px;">Search:</label>
+			<div class="col">				
+				<input type="text" class="form-control" id="search" name="search" value="">
+			</div>	
+			<label for="page" class="col-sm-2 col-form-label" style="text-align:right; width: 50px;">Page:</label>
+			<div class="col-1">				
+				<input type="text" class="form-control" id="page" name="page" value="0" style="text-align: center;">
+			</div>	
+			<label for="limit" class="col-sm-2 col-form-label" style="text-align:right; width: 50px;">Limit:</label>
+			<div class="col-1">				
+				<input type="text" class="form-control" id="limit" name="limit" value="25" style="text-align: center;">
+			</div>								
+			<div class="col-1">
+				<input type="button" class="btn btn-primary" name="list" value="Search" onclick="listLinks();" style="width: 75px;">
+			</div>
+			<div class="col-1">
+				<input type="button" class="btn btn-success" name="show" value="Add Link" onclick="openAddModal();" style="width: 125px;">
+			</div>			
+		</div>								
+		<script>
+
+			var search = getUrlVar('search');
+			document.getElementById('search').value = search;
+
+			var token = getUrlVar('token');				
+			console.log("token:" + token);
+			if(token){
+				document.getElementById('token').value = token;		
+				changeToken(token);
+			}
+
+			var stored_token = Cookies.get('token');
+			if(stored_token){
+				console.log("stored_token:" + stored_token);
+				document.getElementById('token').value = stored_token;	
+				token = stored_token;
+			}
+
+			var input = document.getElementById("search");
+			input.addEventListener("keyup", function(event) {
+			  if (event.keyCode === 13) {
+				event.preventDefault();
+				document.getElementById("listblueprints").click();
+			  }
+			});	
+		</script>        
+		<div class="accordion" id="linkAccordian" style="margin-top: 15px;"></div>
+
+		<script>
+
+			const link_base_url = 'https://qvg1vlbp5j.execute-api.us-east-1.amazonaws.com/staging';
+			const tag_base_url = 'https://4ta4brx192.execute-api.us-east-1.amazonaws.com/staging';
+
+			function deleteLinkTag(id,tag_id){
+
+				var options = {
+						method: "DELETE",
+						headers: {
+						"Content-Type": "application/json",
+						"x-api-key": token
+						}
+					};
+				fetch(link_base_url + '/links/' + id + "/tags/" + tag_id,options)
+					.then(function(response) {						
+						getLinkTags(id);
+						console.log("DELETED!");
+					})
+					.catch(function(err) {
+						console.log('Error: ' + err);
+				});	
+
+				}
+
+			function addLinkTag(id){
+
+				var name = document.getElementById('add-tag~' + id).value;
+
+				var postData = {};
+				postData.name = name;
+				console.log(token);
+
+				var options = {
+						method: "POST",
+						headers: {
+						"Content-Type": "application/json",
+						"x-api-key": token
+						},
+						body: JSON.stringify(postData)
+					};
+
+				fetch(tag_base_url + '/tags/',options)
+					.then(function(response) {
+
+						response.json().then(function(data) {
+							var tag_id = data.id;
+							var postData = {};
+							postData.link_id = id;
+							postData.tag_id = tag_id;
+							var options = {
+									method: "POST",
+									headers: {
+									"Content-Type": "application/json",
+									"x-api-key": token
+									},
+									body: JSON.stringify(postData)
+								};
+
+							fetch(link_base_url + '/links/' + id + '/tags',options)
+								.then(function(response) {
+									getLinkTags(id);							
+								})
+								.catch(function(err) {
+									console.log('Error: ' + err);
+							});		
+						
+						});	
+
+					})
+					.catch(function(err) {
+						console.log('Error: ' + err);
+				});					
+
+				$("#showMe").modal('hide');	
+
+			}
+
+			function getLinkTags(b_id){
+				console.log(token);
+				const options = {
+					method: 'get',
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": token,
+					}
+				};		
+		
+				fetch(link_base_url + '/links/' + b_id + '/tags',options)
+					.then(function(response) {
+						if (!response.ok) {
+							console.log('Error with Status Code: ' + response.status);
+							return;
+						}
+						response.json().then(function(data) {
+							var rows = '<div class="row-auto">';
+							for (let i = 0; i < data.length; i++) {
+								rows += '<div class="col-auto">' + data[i].name + '  <a href="#" onclick="deleteLinkTag(' + b_id + ',' + data[i].tag_id + '); return false;" style="text-decoration: none;">&#10060;</a></div>';
+							}
+							document.getElementById("tag-list~" + b_id).innerHTML = rows;
+						});
+					})
+					.catch(function(err) {
+						console.log('Error: ' + err);
+				});				
+			}
+
+			$('#linkAccordian').on('show.bs.collapse', function (e) {
+				var row_id = e.target.id;
+				var b_id = row_id.replace("collapse-","");						
+		
+				getLinkTags(b_id);
+
+			 	//alert("bluerprint: " + b_id);
+			})
+
+			$('#linkAccordian').on('hidden.bs.collapse', function (e) {
+				var row_id = e.target.id;
+				var b_id = row_id.replace("collapse-","");
+			 	//alert("bluerprint: " + b_id);
+			})	
+
+			function deleteLink(id){
+
+				var options = {
+						method: "DELETE",
+						headers: {
+						"Content-Type": "application/json",
+						"x-api-key": token
+						}
+					};
+
+				fetch(link_base_url + '/links/' + id,options)
+					.then(function(response) {
+						console.log("DELETED!");
+						listLinks();
+					})
+					.catch(function(err) {
+						console.log('Error: ' + err);
+				});	
+
+			}
+
+			function addLink(){
+
+				var name = document.getElementById('add-name').value;
+				var description = document.getElementById('add-description').value;
+				var url = document.getElementById('add-url').value;
+
+				var postData = {};
+				postData.name = name;
+				postData.description = description;
+				postData.url = url;
+
+				var options = {
+						method: "POST",
+						headers: {
+						"Content-Type": "application/json",
+						"x-api-key": token
+						},
+						body: JSON.stringify(postData)
+					};
+
+				fetch(link_base_url + '/links/',options)
+					.then(function(response) {
+						console.log("Added!");
+						listLinks();
+					})
+					.catch(function(err) {
+						console.log('Error: ' + err);
+				});	
+
+				$("#showMe").modal('hide');	
+			}			
+			
+			function openAddModal(){
+				$("#showMe").modal('show');				
+			}
+
+			function closeAddModal(){
+				$("#showMe").modal('hide');				
+			}			
+			
+			function updateLink(id){
+
+				const postData = JSON.parse(document.getElementById('bstore~' + id).value);
+
+				delete postData.id;
+				var options = {
+						method: "PUT",
+						headers: {
+						"Content-Type": "application/json",
+						"x-api-key": token
+						},
+						body: JSON.stringify(postData)
+					};
+
+				fetch(link_base_url + '/links/' + id,options)
+					.then(function(response) {
+						console.log("Updated!");
+					})
+					.catch(function(err) {
+						console.log('Error: ' + err);
+				});				
+
+			}
+
+			function updateRowField(u){
+
+				var ua = u.id.split("~");
+				var field = ua[0];
+				var id = ua[1];
+
+				var bstore = JSON.parse(document.getElementById('bstore~' + id).value);
+				
+				bstore[field] = u.value;
+
+				document.getElementById('toggle-row-' + id).innerHTML = bstore.name;
+
+				document.getElementById('bstore~' + id).value = JSON.stringify(bstore, null, 2);
+
+				updateLink(id);
+
+			}
+
+			function linkRow(row){
+				var html = '';
+
+				html += '<div class="accordion-item" id="link-' + row.id + '">';					
+				html += '<h2 class="accordion-header" id="heading-' + row.id + '">';	
+				html += '<button id="toggle-row-' + row.id + '" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-' + row.id + '" aria-expanded="false" aria-controls="collapse-' + row.id + '" style="color: #000;">';	
+				html += row.name;
+				html += '</button>';	
+				html += '</h2>';	
+				html += '<div id="collapse-' + row.id + '" class="accordion-collapse collapse" aria-labelledby="heading-' + row.id + '" data-bs-parent="#accordion-' + row.id + '">';	
+				html += '<div class="accordion-body">';	
+
+				html += '<form>';
+
+				html += '<div class="form-group" style="display: none;">';
+				html += '<textarea class="form-control" id="bstore~' + row.id + '" rows="5">' + JSON.stringify(row, null, 2) + '</textarea>';
+				html += '</div>';
+
+				html += '<div class="form-group">';
+				html += '<label for="name-' + row.id + '"><strong>Name:</strong></label>';
+				html += '<input type="text" style="width: 100%;" onchange="updateRowField(this);" class="form-control" id="name~' + row.id + '" placeholder="" value="' + row.name + '">';
+				html += '</div>';				
+
+				html += '<div class="form-group">';
+				html += '<label for="description-' + row.id + '"><strong>Description:</strong></label>';
+				html += '<textarea class="form-control" onchange="updateRowField(this);" id="description~' + row.id + '" rows="3">' + row.description + '</textarea>';
+				html += '</div>';
+
+				html += '<div class="form-group">';
+				html += '<label for="url-' + row.id + '"><strong>URL:</strong> (<a href="' + row.url + '" target="_blank">View</a>)</label>';
+				html += '<input type="text" style="width: 100%;" class="form-control" onchange="updateRowField(this);" id="url~' + row.id + '" placeholder="" value="' + row.url + '">';
+				html += '</div>';
+				
+				html += '</form>';
+
+				html += '<hr>';
+
+				html += '<form class="row g-3">';
+				html += '<div class="col-auto">';
+				html += '<h3>Tags</h3>';
+				html += '</div>';					
+				html += '<div class="col-auto">';
+				html += '<input type="text" class="form-control" id="add-tag~' + row.id + '" placeholder="">';
+				html += '</div>';
+				html += '<div class="col-auto">';
+				html += '<button type="button" onclick="addLinkTag(' + row.id + ');" class="btn btn-primary mb-3">Add Tag</button>';
+				html += '</div>';
+				html += '</form>';	
+				html += '<div class="container">';
+				html += '<div class="row">';			
+				html += '<div class="container" id="tag-list~' + row.id + '">';
+				html += 'List Tags Here';
+				html += '</div>';						
+				html += '</div>';
+				html += '</div>';
+				html += '<hr><center><input type="button" class="btn btn-danger" name="delete" value="DELETE" onclick="if (confirm(' + "'" + 'Are you sure you want to delete?' + "'" + ') == true) { deleteLink(' + row.id + ') }" style="width: 125px;"></center>';				
+				html += '</div>';	
+				html += '</div>';	
+				html += '</div>';	
+
+				return html;
+			}
+		
+			function listLinks(){
+
+				var page = document.getElementById("page").value;
+				var limit = document.getElementById("limit").value;
+				var search = document.getElementById("search").value;
+		
+				const options = {
+					method: 'get',
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": token,
+					}
+				};		
+		
+				fetch(link_base_url + '/links/?page=' + page + '&limit=' + limit + '&search=' + search,options)
+					.then(function(response) {
+						if (!response.ok) {
+							console.log('Error with Status Code: ' + response.status);
+							return;
+						}
+						response.json().then(function(data) {
+							var rows = '';
+							if(data){
+								for (let i = 0; i < data.length; i++) {
+									rows += linkRow(data[i],i);
+								}
+							}
+							document.getElementById("linkAccordian").innerHTML = rows;
+						});
+					})
+					.catch(function(err) {
+						console.log('Error: ' + err);
+				});
+				
+			}
+
+			if (window.addEventListener){
+				window.addEventListener("load", listLinks, false);
+			}
+			else if (window.attachEvent){
+				window.attachEvent("onload", listLinks);
+			}
+			else{
+				window.onload = listLinks;	
+			}				
+		
+		</script>		
+
+	</div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="showMe" tabindex="-1" role="dialog" aria-labelledby="showMeLabel" aria-hidden="true" style="width: 100%">
+	<div class="modal-dialog modal-xl" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="showMeLabel">New Link</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeAddModal();">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  <form>
+			  <div class="form-group">
+			  <label for="recipient-name" class="col-form-label">Name:</label>
+			  <input type="text" class="form-control" id="add-name">
+			  </div>					
+			<div class="form-group">
+			  <label for="message-text" class="col-form-label">Description:</label>
+			  <textarea class="form-control" id="add-description"></textarea>
+			</div>
+			<div class="form-group">
+			  <label for="add-url" class="col-form-label">URL:</label>
+			  <input type="text" class="form-control" id="add-url">
+			</div>				  
+		  </form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeAddModal();">Close</button>
+		  <button type="button" class="btn btn-primary" onclick="addLink();">Add Link</button>
+		</div>
+	  </div>
+	</div>
+  </div></main>
+
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">Footer</span>
+  </div>
+</footer>
+
+<script src="http://localhost:4000/assets/js/bootstrap.js"></script>    
+
+  </body>
+</html>

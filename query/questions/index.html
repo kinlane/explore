@@ -1,0 +1,9 @@
+---
+layout: none
+---
+
+
+{% assign questions = site.data.questions %}
+{% for question in questions %}	
+	INSERT INTO questions(name,description,collection_id) VALUES('{{ question.name | escape }}','{{ question.description | replace: "'", "~" }}','{{ question.collection_id }}');<br>
+{% endfor %}

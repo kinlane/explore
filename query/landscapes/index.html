@@ -1,0 +1,9 @@
+---
+layout: none
+---
+
+
+{% assign landscapes = site.data.landscape %}
+{% for landscape in landscapes %}	
+	INSERT INTO landscapes(name,website,api,workspace,rating) VALUES('{{ landscape.name | escape }}','{{ landscape.website | replace: "'", "~" }}','{{ landscape.api }}','{{ landscape.workspace }}','{{ landscape.rating }}');<br>
+{% endfor %}

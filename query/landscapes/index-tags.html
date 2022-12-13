@@ -1,0 +1,11 @@
+---
+layout: none
+---
+
+
+{% assign landscapes = site.data.landscape %}
+{% for landscape in landscapes %}	
+	{% for tag in landscape.tags %}	
+		INSERT INTO landscapes_tags(tag,landscape_name) VALUES('{{ tag }}','{{ landscape.name }}');<br>
+	{% endfor %}
+{% endfor %}

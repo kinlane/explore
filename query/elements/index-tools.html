@@ -1,0 +1,11 @@
+---
+layout: none
+---
+
+
+{% assign elements = site.data.elements %}
+{% for element in elements %}	
+	{% for tool in element.tools %}	
+		INSERT INTO tools(name,url,element_name) VALUES('{{ tool.title }}','{{ tool.url }}','{{ element.name }}');<br>
+	{% endfor %}
+{% endfor %}

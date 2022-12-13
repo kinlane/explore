@@ -1,0 +1,154 @@
+---
+layout: default
+title: Explore
+---
+
+<style>
+	.carousel {
+		border: 2px solid #000;				
+	}				
+	.carousel-caption {
+		max-width: 75%;
+		width:75%;
+		background-color: #FFF;
+		left:23%; 
+		padding: 25px;
+		margin-bottom: 25px;
+	}				
+</style>
+
+<script>
+
+	function filterBlueprints(){
+
+		//alert("IN");
+
+		var blueprints = {{ site.data.blueprints | jsonify }};
+
+		var filter_roles = [];
+		var roles = document.getElementsByName("role");
+		for (var i = 0; i < roles.length; i++){
+			if(roles[i].checked){
+				filter_roles.push(roles[i].value);
+			}
+		}
+		console.log(filter_roles);
+
+		var filter_lifecycle = [];
+		var lifecycle = document.getElementsByName("lifecycle");
+		for (var i = 0; i < lifecycle.length; i++){
+			if(lifecycle[i].checked){
+				filter_lifecycle.push(lifecycle[i].value);
+			}
+		}
+		console.log(filter_lifecycle);	
+
+		for (var i = 0; i < blueprints.length; i++){					
+
+			var role_match = 0;
+			var tag_match = 0;			
+
+			for (var j = 0; j < blueprints[i].roles.length; j++){							
+				for (var k = 0; k < filter_roles.length; k++){
+					if(blueprints[i].roles[j] == filter_roles[k]){
+						role_match = 1;	
+					}
+				}
+			}
+			
+			for (var j = 0; j < blueprints[i].tags.length; j++){							
+				for (var k = 0; k < filter_lifecycle.length; k++){					
+					if(blueprints[i].tags[j] == filter_lifecycle[k]){
+						tag_match = 1;
+					}
+				}
+			}			
+
+			if(role_match == 0 && tag_match == 0){
+				document.getElementById('blueprint-' + i).style.display = "none";	
+			}
+			else{
+				document.getElementById('blueprint-' + i).style.display = "";	
+			}
+
+		}		
+		
+	}
+
+</script>
+
+<div class="container" style="padding-top: 70px;">
+	<div class="row align-top">
+		<div class="col-2" style="padding-left: 35px;">
+			{% assign role_counter = 0 %}					  
+			{% for role in site.data.roles %}					
+				<div class="form-check align-top">
+					<input name="role" class="form-check-input" type="checkbox" value="{{ role.name }}" id="flexCheckDefault" onClick="filterBlueprints()">
+					<label class="form-check-label" for="flexCheckDefault">
+						{{ role.name }}
+					</label>
+				</div>
+				{% assign role_counter = role_counter | plus: 1 %}
+			{% endfor %}	
+		</div>
+		<div class="col-8">
+			
+			<!-- Begin Carousel-->
+			<div id="blueprintCarousel" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner">
+
+					{% assign counter = 0 %}
+					{% for blueprint in site.data.blueprints %}					
+						<div id="blueprint-{{ counter }}" class="carousel-item {% if counter == 0 %}active {% endif %}">
+							<a href="https://www.postman.com/postman/workspace/postman-open-technologies-lifecycle/documentation/{{ blueprint.collection_id }}" target="_blank"><img src="{{ blueprint.image }}" class="d-block w-100" alt="{{ blueprint.name }}"></a>
+							<div class="carousel-caption d-none d-md-block" style="border: 2px solid #000; background-color:#FFF; text-align: left;">
+								<h5><a href="https://www.postman.com/postman/workspace/postman-open-technologies-lifecycle/documentation/{{ blueprint.collection_id }}" target="_blank" style="color: #000;">{{ blueprint.name }}</a></h5>
+								<p style="color: #000">{{ blueprint.description }}</p>
+							</div>				
+						</div>
+						{% assign counter = counter | plus: 1 %}
+					{% endfor %}
+
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#blueprintCarousel" data-bs-slide="prev">
+				  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				  <span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#blueprintCarousel" data-bs-slide="next">
+				  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				  <span class="visually-hidden">Next</span>
+				</button>
+			  </div>
+			  <div class="row align-top">
+				<div class="col-2" style="text-align: left;">
+					<a class="left carousel-control" href="#blueprintCarousel" data-bs-target="#blueprintCarousel" data-bs-slide="prev" onclick="$('#blueprintCarousel').carousel('prev')" style="font-size: 50px; text-decoration: none; color: #000;">&#8678;</a>
+				</div>
+				<div class="col-8" style="text-align: center; font-size: 24px; padding-top: 20px;">
+					{{ counter }} API Blueprints
+				</div>
+				<div class="col-2" style="text-align: right;">
+					<a class="right carousel-control" href="#blueprintCarousel" data-bs-target="#blueprintCarousel" data-bs-slide="next" onclick="$('#blueprintCarousel').carousel('next')" style="font-size: 50px; text-decoration: none; color: #000;">&#8680;</a>
+				</div>				
+			</div>			
+			<!-- End Carousel -->
+
+		</div>	
+		<div class="col-2">
+			{% assign area_counter = 0 %}					  
+			{% for cycle in site.data.lifecycle %}	
+				{% if cycle.priority == 1 %}		
+					<div class="form-check align-top">
+						<input name="lifecycle" class="form-check-input" type="checkbox" value="{{ cycle.name }}" id="flexCheckDefault" onClick="filterBlueprints()">
+						<label class="form-check-label" for="flexCheckDefault">
+							{{ cycle.name }}
+						</label>
+					</div>
+					{% assign area_counter = role_counter | plus: 1 %}
+				{% endif %}						
+			{% endfor %}			
+		</div>
+	</div>
+	<div class="col-2"></div>	
+</div>
+
+

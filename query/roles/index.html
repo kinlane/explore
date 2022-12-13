@@ -1,0 +1,9 @@
+---
+layout: none
+---
+
+
+{% assign roles = site.data.roles %}
+{% for role in roles %}	
+	INSERT INTO roles(name,description,collection_id) VALUES('{{ role.name | escape }}','{{ role.description | replace: "'", "~" }}','{{ role.collection_id }}');<br>
+{% endfor %}

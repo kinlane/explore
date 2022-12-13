@@ -1,0 +1,9 @@
+---
+layout: none
+---
+
+
+{% assign answers = site.data.answers %}
+{% for answer in answers %}	
+	INSERT INTO answers(name,description,collection_id) VALUES('{{ answer.name | replace: "'", "~" }}','{{ answer.description | replace: "'", "~" }}','{{ answer.collection_id }}');<br>
+{% endfor %}

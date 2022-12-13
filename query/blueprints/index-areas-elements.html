@@ -1,0 +1,13 @@
+---
+layout: none
+---
+
+
+{% assign blueprints = site.data.blueprints %}
+{% for blueprint in blueprints %}	
+	{% for area in blueprint.areas %}	
+		{% for element in area.elements %}	
+			INSERT INTO blueprints_areas_elements(name,label,area_label,blueprint_name) VALUES('{{ element.name | replace: "'", "~" }}','{{ element.label | replace: "'", "~" }}','{{ area.label }}','{{ blueprint.name }}');<br>
+		{% endfor %}
+	{% endfor %}
+{% endfor %}

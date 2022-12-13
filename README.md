@@ -1,2 +1,3 @@
-# explore
-This is my explorer.
+# Laneworks Explorer
+
+This is the explore for Laneworks.

@@ -1,0 +1,9 @@
+---
+layout: none
+---
+
+
+{% assign blueprints = site.data.blueprints %}
+{% for blueprint in blueprints %}	
+	INSERT INTO blueprints(name,description,version,collection_id,image,state,maturity,level) VALUES('{{ blueprint.name | escape }}','{{ blueprint.description | replace: "'", "~" }}','{{ blueprint.version }}','{{ blueprint.collection_id }}','{{ blueprint.image }}','{{ blueprint.state }}','{{ blueprint.maturity }}','{{ blueprint.level }}');<br>
+{% endfor %}

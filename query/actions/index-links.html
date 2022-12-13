@@ -1,0 +1,11 @@
+---
+layout: none
+---
+
+
+{% assign actions = site.data.actions %}
+{% for action in actions %}	
+	{% for link in action.links %}	
+		INSERT INTO links(name,url,action_name) VALUES('{{ link.title }}','{{ link.url }}','{{ action.name }}');<br>
+	{% endfor %}
+{% endfor %}

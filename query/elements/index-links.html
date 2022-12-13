@@ -1,0 +1,11 @@
+---
+layout: none
+---
+
+
+{% assign elements = site.data.elements %}
+{% for element in elements %}	
+	{% for link in element.links %}	
+		INSERT INTO links(name,url,element_name) VALUES('{{ link.title }}','{{ link.url }}','{{ element.name }}');<br>
+	{% endfor %}
+{% endfor %}
