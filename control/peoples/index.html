@@ -320,6 +320,31 @@ title: Admin - Peoples
 				html += '<label for="url-' + row.id + '"><strong>URL:</strong> (<a href="' + row.url + '" target="_blank">View</a>)</label>';
 				html += '<input type="text" style="width: 100%;" class="form-control" onchange="updateRowField(this);" id="url~' + row.id + '" placeholder="" value="' + row.url + '">';
 				html += '</div>';
+
+				html += '<div class="form-group">';
+				html += '<label for="url-' + row.id + '"><strong>Blog URL:</strong> (<a href="' + row.blog_url + '" target="_blank">View</a>)</label>';
+				html += '<input type="text" style="width: 100%;" class="form-control" onchange="updateRowField(this);" id="blog_url~' + row.id + '" placeholder="" value="' + row.blog_url + '">';
+				html += '</div>';				
+
+				html += '<div class="form-group">';
+				html += '<label for="url-' + row.id + '"><strong>Twitter URL:</strong> (<a href="' + row.twitter_url + '" target="_blank">View</a>)</label>';
+				html += '<input type="text" style="width: 100%;" class="form-control" onchange="updateRowField(this);" id="twitter_url~' + row.id + '" placeholder="" value="' + row.twitter_url + '">';
+				html += '</div>';
+				
+				html += '<div class="form-group">';
+				html += '<label for="url-' + row.id + '"><strong>Mastodon URL:</strong> (<a href="' + row.mastodon_url + '" target="_blank">View</a>)</label>';
+				html += '<input type="text" style="width: 100%;" class="form-control" onchange="updateRowField(this);" id="mastodon_url~' + row.id + '" placeholder="" value="' + row.mastodon_url + '">';
+				html += '</div>';	
+				
+				html += '<div class="form-group">';
+				html += '<label for="url-' + row.id + '"><strong>LinkedIn URL:</strong> (<a href="' + row.linkedin_url + '" target="_blank">View</a>)</label>';
+				html += '<input type="text" style="width: 100%;" class="form-control" onchange="updateRowField(this);" id="linkedin_url~' + row.id + '" placeholder="" value="' + row.linkedin_url + '">';
+				html += '</div>';	
+				
+				html += '<div class="form-group">';
+				html += '<label for="url-' + row.id + '"><strong>GitHub URL:</strong> (<a href="' + row.github_url + '" target="_blank">View</a>)</label>';
+				html += '<input type="text" style="width: 100%;" class="form-control" onchange="updateRowField(this);" id="github_url~' + row.id + '" placeholder="" value="' + row.github_url + '">';
+				html += '</div>';					
 				
 				html += '</form>';
 
